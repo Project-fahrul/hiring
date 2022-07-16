@@ -7,18 +7,17 @@ import com.gli.hiring.hiring.gli.controller.EmployeeController;
 import com.gli.hiring.hiring.gli.model.EmployeeModel;
 import static org.hamcrest.CoreMatchers.is;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = EmployeeController.class)
-@ActiveProfiles("test")
+@ComponentScan
 class EmployeeModelTest {
             
         @Autowired
@@ -42,7 +41,7 @@ class EmployeeModelTest {
                     .content(ow.writeValueAsString(model)))
                     .andExpect(status().isCreated())
                     .andExpect(header().string("content-type", "application/json"))
-                    .andExpect(jsonPath("$.name", is("Fahrul")));
+                    .andExpect(jsonPath("$.status", is("success")));
             
             model = new EmployeeModel();
             model.setEmail("fahrulputraa40@gmail.com");
@@ -54,7 +53,7 @@ class EmployeeModelTest {
             this.mockMvc.perform(post("/employee")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(ow.writeValueAsString(model)))
-                    .andExpect(status().isAccepted());
+                    .andExpect(status().isBadRequest());
 	}
 
 }

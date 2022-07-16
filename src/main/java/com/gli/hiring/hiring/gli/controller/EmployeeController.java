@@ -4,15 +4,15 @@
  */
 package com.gli.hiring.hiring.gli.controller;
 
+import com.gli.hiring.hiring.gli.component.ResponsePayload;
 import com.gli.hiring.hiring.gli.model.EmployeeModel;
 import javax.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -21,12 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/employee")
-@Slf4j
 public class EmployeeController {
     
+    @Autowired
+    ResponsePayload responsePayload;
     
-    @PostMapping
-    public ResponseEntity<EmployeeModel> createEmployee(@Valid @RequestBody EmployeeModel employeeModel){
-        return new ResponseEntity<EmployeeModel>(employeeModel, HttpStatus.CREATED);
+    @PostMapping(consumes = "application/json")
+    public ResponseEntity<Object> createEmployee(@Valid @RequestBody EmployeeModel employeeModel){
+        return new ResponseEntity<Object>(responsePayload.setStatus("success").setData(employeeModel).getHash(), HttpStatus.CREATED);
     }
 }
