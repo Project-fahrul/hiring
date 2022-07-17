@@ -36,7 +36,7 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
-    @PostMapping
+    @PostMapping(consumes = "application/json")
     public ResponseEntity<Object> createEmployee(@Valid @RequestBody EmployeeModel employeeModel) {
         return new ResponseEntity<>(responsePayload
                 .setStatusSuccess()
@@ -50,7 +50,7 @@ public class EmployeeController {
         return new ResponseEntity<>(responsePayload
                 .setStatusSuccess()
                 .setData(employeeService.getAll())
-                .getHash(), HttpStatus.ACCEPTED);
+                .getHash(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}", consumes = "application/json")
@@ -58,7 +58,7 @@ public class EmployeeController {
         return new ResponseEntity<>(responsePayload
                 .setStatusSuccess()
                 .setData(employeeService.getById(Integer.parseInt(id)))
-                .getHash(), HttpStatus.ACCEPTED);
+                .getHash(), HttpStatus.OK);
 
     }
 
@@ -66,7 +66,7 @@ public class EmployeeController {
     public ResponseEntity<Object> updateEmployee(@RequestBody @Valid EmployeeModel employeeModel, @PathVariable String id) {
         Optional<EmployeeModel> currentEmployeeModel = employeeService.getById(Integer.parseInt(id));
         if(!currentEmployeeModel.isPresent()){
-            return new ResponseEntity<>(responsePayload.setStatusError().setEmptyData(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(responsePayload.setStatusError().setEmptyData().getHash(), HttpStatus.BAD_REQUEST);
         }
         EmployeeModel data = currentEmployeeModel.get();
         if(Objects.nonNull(data)){
@@ -85,6 +85,6 @@ public class EmployeeController {
         return new ResponseEntity<>(responsePayload
                 .setStatusSuccess()
                 .setEmptyData()
-                .getHash(), HttpStatus.ACCEPTED);
+                .getHash(), HttpStatus.OK);
     }
 }

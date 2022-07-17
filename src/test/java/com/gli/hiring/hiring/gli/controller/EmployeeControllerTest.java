@@ -5,6 +5,8 @@ import com.gli.hiring.hiring.gli.component.ResponsePayload;
 import com.gli.hiring.hiring.gli.model.EmployeeModel;
 import com.gli.hiring.hiring.gli.repository.EmployeeRepository;
 import com.gli.hiring.hiring.gli.service.EmployeeService;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +22,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.hamcrest.CoreMatchers.is;
+
+import static org.mockito.ArgumentMatchers.any;
 import org.junit.Assert;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -60,35 +64,47 @@ class EmployeeControllerTest {
 
     @Test
     public void TestCreateEmployee() throws Exception {
-        
-        Optional<EmployeeModel> employee= Optional.of(model);
-        given(employeeService.getById(1)).willReturn(employee);
-        this.mockMvc.perform(get(path+"/1")
+        given(employeeService.save(model)).willReturn(model);
+        this.mockMvc.perform(post(path)
+                .content(mp.writeValueAsString(model))
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().isCreated());
     }
 
-//    @Test
-//    public void getAllEmployee() throws Exception {
-//        this.mockMvc.perform(get(path)
-//                .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().is2xxSuccessful());
-//    }
-//
-//    @Test
-//    public void UpdateEmployee() throws Exception {
-//        this.mockMvc.perform(post(path)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(mp.writeValueAsString(model)))
-//                .andExpect(status().isCreated())
-//                .andExpect(header().string("content-type", "application/json"))
-//                .andExpect(jsonPath("$.status", is("success")));
-//
-//        model.setName("Putra");
-//
-//        this.mockMvc.perform(put(path + "/2")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(mp.writeValueAsString(model)))
-//                .andExpect(status().isCreated());
-//    }
+    @Test
+    public void getEmployeeById() throws Exception{        
+        Optional<EmployeeModel> employee= Optional.of(model);
+        given(employeeService.getById(any(Integer.class))).willReturn(employee);
+        this.mockMvc.perform(get(path+"/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+    
+    @Test
+    public void getAllEmployee() throws Exception {
+        List<EmployeeModel> model = new ArrayList<>();
+        given(employeeService.getAll()).willReturn(model);
+        this.mockMvc.perform(get(path)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void UpdateEmployee() throws Exception {
+        
+        Optional<EmployeeModel> employee= Optional.of(model);
+        given(employeeService.getById(any(Integer.class))).willReturn(employee);
+        given(employeeService.save(model)).willReturn(model);
+        this.mockMvc.perform(put(path + "/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mp.writeValueAsString(model)))
+                .andExpect(status().isCreated());
+    }
+    
+    @Test
+    public void DeleteEmployee() throws Exception{
+       this.mockMvc.perform(delete(path+"/1")
+                .contentType(MediaType.APPLICATION_JSON))
+               .andExpect(status().isOk());
+    }
 }
