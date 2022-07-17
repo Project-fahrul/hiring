@@ -1,36 +1,27 @@
 package com.gli.hiring.hiring.gli.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gli.hiring.hiring.gli.component.ResponsePayload;
 import com.gli.hiring.hiring.gli.model.EmployeeModel;
-import com.gli.hiring.hiring.gli.repository.EmployeeRepository;
 import com.gli.hiring.hiring.gli.service.EmployeeService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.hamcrest.CoreMatchers.is;
 
 import static org.mockito.ArgumentMatchers.any;
-import org.junit.Assert;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import static org.mockito.BDDMockito.given;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.junit4.SpringRunner;
 
 @WebMvcTest(controllers = EmployeeController.class)
 @ExtendWith(SpringExtension.class)
@@ -92,9 +83,9 @@ class EmployeeControllerTest {
     @Test
     public void UpdateEmployee() throws Exception {
         
-        Optional<EmployeeModel> employee= Optional.of(model);
-        given(employeeService.getById(any(Integer.class))).willReturn(employee);
-        given(employeeService.save(model)).willReturn(model);
+        given(employeeService.getById(any(Integer.class))).willReturn( Optional.of(model));
+        
+        given(employeeService.save(model)).willAnswer((invocation)-> invocation.getArgument(0));
         this.mockMvc.perform(put(path + "/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mp.writeValueAsString(model)))

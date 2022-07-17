@@ -68,8 +68,8 @@ public class EmployeeController {
         if(!currentEmployeeModel.isPresent()){
             return new ResponseEntity<>(responsePayload.setStatusError().setEmptyData().getHash(), HttpStatus.BAD_REQUEST);
         }
-        EmployeeModel data = currentEmployeeModel.get();
-        if(Objects.nonNull(data)){
+        EmployeeModel data = employeeModel;
+        if(!Objects.nonNull(data.getId())){
             data.setId(Integer.parseInt(id));
         }
         
