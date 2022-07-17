@@ -36,10 +36,9 @@ public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
 
-    @PostMapping(consumes = "application/json")
+    @PostMapping
     public ResponseEntity<Object> createEmployee(@Valid @RequestBody EmployeeModel employeeModel) {
-        employeeService.getAll();
-        return new ResponseEntity<Object>(responsePayload
+        return new ResponseEntity<>(responsePayload
                 .setStatusSuccess()
                 .setData(employeeService.save(employeeModel))
                 .getHash(),
@@ -54,7 +53,7 @@ public class EmployeeController {
                 .getHash(), HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(path = "/{id}", consumes = "application/json")
     public ResponseEntity<Object> getEmployee(@PathVariable String id) {
         return new ResponseEntity<>(responsePayload
                 .setStatusSuccess()
@@ -63,7 +62,7 @@ public class EmployeeController {
 
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(path = "/{id}", consumes = "application/json")
     public ResponseEntity<Object> updateEmployee(@RequestBody @Valid EmployeeModel employeeModel, @PathVariable String id) {
         Optional<EmployeeModel> currentEmployeeModel = employeeService.getById(Integer.parseInt(id));
         if(!currentEmployeeModel.isPresent()){
@@ -77,10 +76,10 @@ public class EmployeeController {
         return new ResponseEntity<>(responsePayload
                 .setStatusSuccess()
                 .setData(employeeService.update(data))
-                .getHash(), HttpStatus.ACCEPTED);
+                .getHash(), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(path = "/{id}", consumes = "application/json")
     public ResponseEntity<Object> deleteEmployee(@PathVariable String id) {
          employeeService.deleteById(Integer.parseInt(id));
         return new ResponseEntity<>(responsePayload

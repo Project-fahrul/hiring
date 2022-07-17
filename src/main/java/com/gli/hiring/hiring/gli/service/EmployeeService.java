@@ -29,7 +29,6 @@ public class EmployeeService {
     //get
     public List<EmployeeModel> getAll(){
         List<EmployeeModel> d = (List<EmployeeModel>) employeeRepository.findAll();
-        System.out.println("Get all"+d);
         return d;
     }
     

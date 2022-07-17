@@ -9,7 +9,7 @@ import com.gli.hiring.hiring.gli.repository.EmployeeRepository;
 import java.util.List;
 import java.util.Optional;
 import org.junit.Assert;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class EmployeeRepositoryTest {
     private EmployeeModel model;
     private String email;
 
-    @BeforeAll
+    @BeforeEach
     public void setupModel() {
         email = "fahrulputraap40@gmail.com";
         model = new EmployeeModel();
