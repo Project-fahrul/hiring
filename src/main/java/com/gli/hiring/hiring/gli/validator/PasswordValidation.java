@@ -4,7 +4,7 @@
  */
 package com.gli.hiring.hiring.gli.validator;
 
-import com.gli.hiring.hiring.gli.validator.constraint.EnumConstraint;
+import com.gli.hiring.hiring.gli.validator.constraint.PasswordConstraint;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -18,17 +18,11 @@ import javax.validation.Payload;
  * @author fahrul
  */
 @Documented
-@Constraint(validatedBy = EnumConstraint.class)
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.ANNOTATION_TYPE,ElementType.FIELD})
-public @interface EnumValues {
-
-    Class<? extends Enum<?>> enumClass();
-
-    String message() default "Please enter gender wih MALE or Female";
-
-    Class<?>[] groups() default {};
-
+@Target(value = {ElementType.FIELD, ElementType.METHOD})
+@Constraint(validatedBy = PasswordConstraint.class)
+public @interface PasswordValidation {
+    String message() default "Please enter valid password";
     Class<? extends Payload>[] payload() default {};
-
+    Class<?>[] groups() default {};
 }

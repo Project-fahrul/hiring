@@ -4,22 +4,22 @@
  */
 package com.gli.hiring.hiring.gli.validator.constraint;
 
-import com.gli.hiring.hiring.gli.validator.EnumValues;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import com.gli.hiring.hiring.gli.validator.EnumValidation;
 
 /**
  *
  * @author fahrul
  */
-public class EnumConstraint implements ConstraintValidator<EnumValues, String> {
+public class EnumConstraint implements ConstraintValidator<EnumValidation, String> {
         
         private List<String> value = null;
         
         @Override
-        public void initialize(EnumValues constraintAnnotation) {
+        public void initialize(EnumValidation constraintAnnotation) {
             value = new ArrayList<String>();
             Class<? extends Enum<?>> enumClass = constraintAnnotation.enumClass();
             

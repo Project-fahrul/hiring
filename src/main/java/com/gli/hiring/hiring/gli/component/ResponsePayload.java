@@ -19,8 +19,9 @@ public class  ResponsePayload {
         
         @PostConstruct
         public void initialize(){
-            hash = new HashMap<String, Object>();
+            hash = new HashMap<>();
             setStatus("error");
+            setData("");
         }
         
         public ResponsePayload setStatus(String status){
@@ -28,8 +29,23 @@ public class  ResponsePayload {
             return this;
         }
         
+        public ResponsePayload setEmptyData(){
+            hash.put("data", "{}");
+            return this;
+        }
+        
         public ResponsePayload setData(Object data){
             hash.put("data", data);
+            return this;
+        }
+        
+        public ResponsePayload setStatusSuccess(){
+            setStatus("success");
+            return this;
+        }
+        
+        public ResponsePayload setStatusError(){
+            setStatus("error");
             return this;
         }
         
