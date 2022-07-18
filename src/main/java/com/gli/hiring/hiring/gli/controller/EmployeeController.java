@@ -7,6 +7,8 @@ package com.gli.hiring.hiring.gli.controller;
 import com.gli.hiring.hiring.gli.component.ResponsePayload;
 import com.gli.hiring.hiring.gli.model.EmployeeModel;
 import com.gli.hiring.hiring.gli.service.EmployeeService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.util.Objects;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -28,6 +30,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/employee")
+@Api(value = "API to act CRUD to employee",
+        description = "This API provides the capability to create, search employee from a Employee Repository", produces = "application/json")
 public class EmployeeController {
 
     @Autowired
@@ -35,7 +39,8 @@ public class EmployeeController {
 
     @Autowired
     EmployeeService employeeService;
-
+    
+    @ApiOperation(value = "Create employee. The X-Access-Token see in application.properties", produces = "application/json")
     @PostMapping(consumes = "application/json")
     public ResponseEntity<Object> createEmployee(@Valid @RequestBody EmployeeModel employeeModel) {
         return new ResponseEntity<>(responsePayload
@@ -45,6 +50,7 @@ public class EmployeeController {
                 HttpStatus.CREATED);
     }
 
+    @ApiOperation(value = "Get All employee. The X-Access-Token see in application.properties", produces = "application/json")
     @GetMapping
     public ResponseEntity<Object> getEmployee() {
         return new ResponseEntity<>(responsePayload
@@ -53,6 +59,7 @@ public class EmployeeController {
                 .getHash(), HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Get Employee by ID. The X-Access-Token see in application.properties", produces = "application/json")
     @GetMapping(path = "/{id}", consumes = "application/json")
     public ResponseEntity<Object> getEmployee(@PathVariable String id) {
         return new ResponseEntity<>(responsePayload
@@ -62,6 +69,8 @@ public class EmployeeController {
 
     }
 
+    
+    @ApiOperation(value = "Update employee. The X-Access-Token see in application.properties", produces = "application/json")
     @PutMapping(path = "/{id}", consumes = "application/json")
     public ResponseEntity<Object> updateEmployee(@RequestBody @Valid EmployeeModel employeeModel, @PathVariable String id) {
         Optional<EmployeeModel> currentEmployeeModel = employeeService.getById(Integer.parseInt(id));
@@ -79,6 +88,8 @@ public class EmployeeController {
                 .getHash(), HttpStatus.CREATED);
     }
 
+    
+    @ApiOperation(value = "Delete employee by ID. The X-Access-Token see in application.properties", produces = "application/json")
     @DeleteMapping(path = "/{id}", consumes = "application/json")
     public ResponseEntity<Object> deleteEmployee(@PathVariable String id) {
          employeeService.deleteById(Integer.parseInt(id));

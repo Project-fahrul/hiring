@@ -30,11 +30,11 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo(
-                "StudentSearchApplication",
-                "An application to search Student from a Student repository by studentId",
-                "StudentSearchApplication v1",
+                "GLI Hiring",
+                "An application to provide Employee Data and DogsBreed data",
+                "GLI Hiring v1",
                 "Terms of service",
-                "hendisantika@gmail.com",
+                "fahrulputra40@gmail.com",
                 "License of API",
                 "https://swagger.io/docs/");
         return apiInfo;

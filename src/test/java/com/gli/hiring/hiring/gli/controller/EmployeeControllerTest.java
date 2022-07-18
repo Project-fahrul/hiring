@@ -27,7 +27,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(controllers = EmployeeController.class)
 @ExtendWith(SpringExtension.class)
-@ComponentScan(basePackageClasses = {com.gli.hiring.hiring.gli.component.ResponsePayload.class})
+@ComponentScan(basePackageClasses = {
+    com.gli.hiring.hiring.gli.component.ResponsePayload.class,
+    com.gli.hiring.hiring.gli.security.UnauthorizationEntryPoinSecurity.class
+})
 class EmployeeControllerTest {
 
     @Autowired

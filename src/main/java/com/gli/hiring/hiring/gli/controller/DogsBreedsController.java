@@ -7,6 +7,10 @@ package com.gli.hiring.hiring.gli.controller;
 import com.gli.hiring.hiring.gli.component.ResponsePayload;
 import com.gli.hiring.hiring.gli.model.DogsBreedsModel;
 import com.gli.hiring.hiring.gli.service.DogsBreedService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/dogs")
+@Api(value = "This API is to get all data from dogs breed", description="This Api is used to get all dogs bread and sub breed")
 public class DogsBreedsController {
 
     @Autowired
@@ -30,9 +35,11 @@ public class DogsBreedsController {
     @Autowired
     private DogsBreedService dogsBreedService;
     
+    
+    @ApiOperation(value = "Get all dogs breed. The X-Access-Token see in application.properties", produces = "application/json")
     @GetMapping
     public ResponseEntity<Object> listAll() {
-        Optional<DogsBreedsModel> model = dogsBreedService.getAll();
+        Optional<DogsBreedsModel<HashMap<String, Object>>> model = dogsBreedService.getAll();
         
         if (!model.isPresent()) {
             return new ResponseEntity(responsePayload
@@ -44,10 +51,10 @@ public class DogsBreedsController {
                 .setStatusSuccess()
                 .setData(model.get()).getHash(), HttpStatus.OK);
     }
-    
+    @ApiOperation(value = "Get all sub breed. The X-Access-Token see in application.properties", produces = "application/json")
     @GetMapping("/sub")
     public ResponseEntity<Object> getAllSubBreed() {
-        Optional<DogsBreedsModel> model = dogsBreedService.getAllSubBreeds();
+        Optional<DogsBreedsModel<List<String>>> model = dogsBreedService.getAllSubBreeds();
         if (!model.isPresent()) {
             return new ResponseEntity(responsePayload
                     .setStatusError()
@@ -59,9 +66,10 @@ public class DogsBreedsController {
                 .setData(model.get()).getHash(), HttpStatus.OK);
     }
     
+    @ApiOperation(value = "Get all sub dogs breed images. The X-Access-Token see in application.properties", produces = "application/json")
     @GetMapping("/sub/images/{breed}")
     public ResponseEntity<Object> getAllSubBreedImages(@PathVariable String breed) {
-        Optional<DogsBreedsModel> model = dogsBreedService.getAllSubBreedImages(breed);
+        Optional<DogsBreedsModel<List<String>>> model = dogsBreedService.getAllSubBreedImages(breed);
         
         if (!model.isPresent()) {
             return new ResponseEntity(responsePayload
@@ -73,10 +81,10 @@ public class DogsBreedsController {
                 .setStatusSuccess()
                 .setData(model.get()).getHash(), HttpStatus.OK);
     }
-    
+    @ApiOperation( value = "Get single image dogs breed. The X-Access-Token see in application.properties", produces = "application/json")
     @GetMapping("/sub/single/{breed}")
     public ResponseEntity<Object> getSingleSubBreed(@PathVariable String breed) {
-        Optional<DogsBreedsModel> model = dogsBreedService.getSingleSubBreedImageRandom(breed);
+        Optional<DogsBreedsModel<String>> model = dogsBreedService.getSingleSubBreedImageRandom(breed);
         
         if (!model.isPresent()) {
             return new ResponseEntity(responsePayload
@@ -89,9 +97,10 @@ public class DogsBreedsController {
                 .setData(model.get()).getHash(), HttpStatus.OK);
     }
     
+    @ApiOperation(value = "Get multi sub dogs breed image. The X-Access-Token see in application.properties", produces = "application/json")
     @GetMapping("/sub/multi/{breed}/total/{total}")
     public ResponseEntity<Object> getMultiSubBreed(@PathVariable(name = "breed") String breed, @PathVariable(name = "total") String total) {
-        Optional<DogsBreedsModel> model = dogsBreedService.getMultiSubBreedImageRandom(breed, Integer.parseInt(total));
+        Optional<DogsBreedsModel<List<String>>> model = dogsBreedService.getMultiSubBreedImageRandom(breed, Integer.parseInt(total));
         
         if (!model.isPresent()) {
             return new ResponseEntity(responsePayload

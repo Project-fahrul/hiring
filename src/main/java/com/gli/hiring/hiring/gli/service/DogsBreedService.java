@@ -32,7 +32,7 @@ public class DogsBreedService {
     private RestTemplate restTemplete;
     
     @Cacheable(cacheNames = "dogs")
-    public Optional<DogsBreedsModel> getAll() {
+    public Optional<DogsBreedsModel<HashMap<String, Object>>> getAll() {
         ResponseEntity<DogsBreedsModel<HashMap<String, Object>>> response = restTemplete
                 .exchange(url + "/breeds/list/all",
                         HttpMethod.GET, null,
@@ -45,7 +45,7 @@ public class DogsBreedService {
     }
     
     @Cacheable(cacheNames = "dogs_sub")
-    public Optional<DogsBreedsModel> getAllSubBreeds() {
+    public Optional<DogsBreedsModel<List<String>>> getAllSubBreeds() {
         ResponseEntity<DogsBreedsModel<List<String>>> response = restTemplete
                 .exchange(url + "/breed/hound/list", HttpMethod.GET, null,
                         new ParameterizedTypeReference<DogsBreedsModel<List<String>>>() {
@@ -57,7 +57,7 @@ public class DogsBreedService {
     }
 
     @Cacheable(cacheNames = "dogs_sub_image", key = "#breed")
-    public Optional<DogsBreedsModel> getAllSubBreedImages(String breed) {
+    public Optional<DogsBreedsModel<List<String>>> getAllSubBreedImages(String breed) {
         ResponseEntity<DogsBreedsModel<List<String>>> response = restTemplete
                 .exchange(url + "/breed/hound/" + breed + "/images", 
                         HttpMethod.GET, null,
@@ -69,7 +69,7 @@ public class DogsBreedService {
         return Optional.empty();
     }
     
-    public Optional<DogsBreedsModel> getSingleSubBreedImageRandom(String breed) {
+    public Optional<DogsBreedsModel<String>> getSingleSubBreedImageRandom(String breed) {
         ResponseEntity<DogsBreedsModel<String>> response = restTemplete
                 .exchange(url + "/breed/hound/" + breed + "/images/random", 
                         HttpMethod.GET, null,
@@ -81,7 +81,7 @@ public class DogsBreedService {
         return Optional.empty();
     }
     
-    public Optional<DogsBreedsModel> getMultiSubBreedImageRandom(String breed, int total) {
+    public Optional<DogsBreedsModel<List<String>>> getMultiSubBreedImageRandom(String breed, int total) {
         ResponseEntity<DogsBreedsModel<List<String>>> response = restTemplete
                 .exchange(url + "/breed/hound/" + breed + "/images/random/" + total, HttpMethod.GET, null,
                         new ParameterizedTypeReference<DogsBreedsModel<List<String>>>() {
