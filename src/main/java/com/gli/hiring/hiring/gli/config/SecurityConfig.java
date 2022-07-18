@@ -51,14 +51,14 @@ public void configure(WebSecurity web) throws Exception {
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        System.err.println("asaxax");
+       
         http
         .csrf()
         .disable()
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
         .authorizeRequests()
-        .antMatchers("/h2/**",
+        .antMatchers(
         "/swagger-ui/**").permitAll()
         .antMatchers("/employee").hasRole("ADMIN")
         .antMatchers("/dogs").hasRole("ADMIN")
