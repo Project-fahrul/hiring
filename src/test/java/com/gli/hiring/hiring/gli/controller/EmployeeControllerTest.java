@@ -20,9 +20,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.mockito.ArgumentMatchers.any;
 import org.junit.jupiter.api.extension.ExtendWith;
 import static org.mockito.BDDMockito.given;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+@AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(controllers = EmployeeController.class)
 @ExtendWith(SpringExtension.class)
 @ComponentScan(basePackageClasses = {com.gli.hiring.hiring.gli.component.ResponsePayload.class})
