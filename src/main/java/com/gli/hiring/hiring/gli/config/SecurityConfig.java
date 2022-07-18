@@ -42,6 +42,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
     
     @Override
+public void configure(WebSecurity web) throws Exception {
+    web.ignoring().antMatchers( "/swagger-resources/**",
+        "/swagger-ui.html",
+        "/v2/api-docs",
+        "/webjars/**");
+}
+    
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
         System.err.println("asaxax");
         http
@@ -50,6 +58,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
         .authorizeRequests()
+        .antMatchers("/h2/**",
+        "/swagger-ui/**").permitAll()
         .antMatchers("/employee").hasRole("ADMIN")
         .antMatchers("/dogs").hasRole("ADMIN")
         .anyRequest().authenticated()
