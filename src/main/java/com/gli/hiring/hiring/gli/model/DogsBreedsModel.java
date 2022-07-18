@@ -5,10 +5,6 @@
 package com.gli.hiring.hiring.gli.model;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import lombok.Data;
 
 /**
@@ -17,6 +13,6 @@ import lombok.Data;
  * @param <T>
  */
 @Data
-public class DogsBreedsModel<T>{
+public class DogsBreedsModel<T> implements Serializable {
     private T message;
 }
